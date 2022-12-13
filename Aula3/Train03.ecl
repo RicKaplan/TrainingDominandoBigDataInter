@@ -28,7 +28,3 @@ OUTPUT(MyScores , NAMED('ScoreValues'));
 MyDeviance := LR.Deviance_Detail(YTest,MyScores);
 MyAIC := LR.Model_Deviance(MyDeviance,MyBeta);
 OUTPUT(MyAIC, NAMED('AIC'));
-   
-   
-   
-
