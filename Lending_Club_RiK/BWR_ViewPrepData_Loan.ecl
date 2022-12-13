@@ -20,9 +20,9 @@ OUTPUT($.File_Lendings.Dataset_Lendings, NAMED('File_Lendings'));
 OUTPUT($.Prep02.myDataE,NAMED('CleanLendings'));
 // COUNT($.Prep02.myDataE);
 // Browse clean train data and test data
- OUTPUT($.Prep02.myTrainData,NAMED('TrainData'));
+OUTPUT($.Prep02.myTrainData,NAMED('TrainData'));
 COUNT($.Prep02.myTrainData);
- OUTPUT($.Prep02.myTestData,NAMED('TestData'));
+OUTPUT($.Prep02.myTestData,NAMED('TestData'));
 COUNT($.Prep02.myTestData);
 // Browse converted train and test data
 OUTPUT($.Convert02.myIndTrainDataNF,NAMED('IndTrain'));
