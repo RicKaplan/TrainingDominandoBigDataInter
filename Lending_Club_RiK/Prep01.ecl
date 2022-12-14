@@ -1,27 +1,28 @@
-﻿IMPORT $;
-Property := $.File_Loan_Status.File;
-ML_Prop  := $.File_Loan_Status.MLProp;
+IMPORT $;
+
+Lendings := $.File_Lendings.Dataset_Lendings;
+ML_Prop  := $.File_Lendings.Layout_Lendings;
 
 EXPORT Prep01 := MODULE
   MLPropExt := RECORD(ML_Prop)
-    UNSIGNED4 rnd; // A random number
+   UNSIGNED4 rnd; // A random number
   END;
-  // Clean the data and assign a random number to each record
-  CleanFilter := Property.loan_amnt <> '0' AND Property.funded_amnt <> '0' AND Property.funded_amnt_inv <> '0';
-                //  AND 
-                //  Property.land_square_footage <> 0 AND Property.living_square_feet <> 0 AND 
-                //  Property.bedrooms <> 0 AND Property.year_Built <> 0;
-							 
-  EXPORT myDataE := PROJECT(Property(CleanFilter), TRANSFORM(MLPropExt, 
+ // Clean the data and assign a random number to each record
+	// CleanFilter := Lendings.last_fico_range_high <> 0 AND Lendings.last_fico_range_low <> 0;
+	CleanFilter := Lendings.loan_amnt <> 0 AND Lendings.fico_range_low <> 0;
+
+  EXPORT myDataE := PROJECT(Lendings(CleanFilter), TRANSFORM(MLPropExt, 
                                                              SELF.rnd := RANDOM(),
                                                              SELF := LEFT));
-																														 
+																							               
   // Shuffle your data by sorting on the random field
   SHARED myDataES := SORT(myDataE, rnd);
   // Now cut the deck and you have random samples within each set
   // While you're at it, project back to your original format -- we dont need the rnd field anymore
   // Treat first 5000 as training data.  Transform back to the original format.
-  EXPORT myTrainData := PROJECT(myDataES[1..5000], ML_Prop);  
+  EXPORT myTrainData := PROJECT(myDataES[1..500000], ML_Prop);
+                                  
   // Treat next 2000 as test data
-  EXPORT myTestData  := PROJECT(myDataES[5001..7000], ML_Prop); 
+  EXPORT myTestData  := PROJECT(myDataES[500001..700000], ML_Prop);
+                                 
 END;
