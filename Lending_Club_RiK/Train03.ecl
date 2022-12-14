@@ -14,6 +14,7 @@ OUTPUT(myModel,,'~mymodelLRRIK',NAMED('TrainedModel'),OVERWRITE); //Replace XXX 
 //Test Logistic Regression Model on Banking data
 MyPredict := myLearner.Classify(myModel, XTest);
 OUTPUT(MyPredict, NAMED('PredictedValues'));
+count(MyPredict);
 //Assess Logistic Regression model on Banking data
 MyConfMatrix := ML_Core.Analysis.Classification.ConfusionMatrix(MyPredict,Ytest);
 OUTPUT(MyConfMatrix, NAMED('ConfusionMatrix'), ALL);
